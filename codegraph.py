@@ -43,6 +43,7 @@ def print_banner(target_dir: str, port: int, stats: dict):
     langs = ", ".join([l.title() for l in stats.get('languages', {}).keys() if l != 'generic'][:4]) or "Multi-Language"
     print("\n" + "=" * 70)
     print("            * CodeGraph Studio - Universal Runner *")
+    print("               Crafted by KissuHQ (PR)")
     print("=" * 70)
     print(f" Target Project : {target_dir}")
     print(f" Visualizer URL : http://localhost:{port}/")
