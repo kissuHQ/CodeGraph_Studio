@@ -354,7 +354,7 @@ class CodeGraphEngine:
 
         if not os.path.exists(self.db_path) and codegraph_bin:
             try:
-                subprocess.run([codegraph_bin, "index", self.root_dir], check=False, capture_output=True, timeout=25)
+                subprocess.run([codegraph_bin, "init", self.root_dir], check=False, capture_output=True, timeout=30)
             except Exception:
                 pass
 

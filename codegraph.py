@@ -111,8 +111,9 @@ Examples:
         codegraph_bin = shutil.which("codegraph")
         if codegraph_bin:
             print(f"[*] Re-indexing project with codegraph CLI: {target_path} ...")
+            cmd = "index" if os.path.exists(os.path.join(target_path, ".codegraph")) else "init"
             try:
-                subprocess.run([codegraph_bin, "index", target_path], check=False)
+                subprocess.run([codegraph_bin, cmd, target_path], check=False)
             except Exception as e:
                 print(f"[!] Re-index warning: {e}")
 
