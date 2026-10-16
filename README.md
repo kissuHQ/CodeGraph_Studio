@@ -1,5 +1,6 @@
 <p align="center">
   <br />
+  <img src="assets/logo.png" alt="CodeGraph Studio" width="180" style="border-radius: 20px;" />
   <h1 align="center">✦ CodeGraph Studio ✦</h1>
   <p align="center">
     <strong>Universal Multi-Language Codebase Visualizer & Execution Flowchart Studio</strong>

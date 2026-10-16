@@ -104,6 +104,16 @@ def create_handler(engine: CodeGraphEngine, base_dir: str):
             vendor_dir = vp
             break
 
+    candidate_assets = [
+        os.path.join(base_dir, "web", "assets"),
+        os.path.join(base_dir, "assets")
+    ]
+    assets_dir = candidate_assets[0]
+    for ap in candidate_assets:
+        if os.path.exists(ap):
+            assets_dir = ap
+            break
+
     class CodeGraphHandler(http.server.BaseHTTPRequestHandler):
         def log_message(self, format, *args):
             pass
@@ -122,6 +132,10 @@ def create_handler(engine: CodeGraphEngine, base_dir: str):
                 self.serve_dead_code(parsed.query)
             elif clean_path.startswith("/vendor/"):
                 self.serve_vendor(clean_path[len("/vendor/"):])
+            elif clean_path.startswith("/assets/"):
+                self.serve_asset(clean_path[len("/assets/"):])
+            elif clean_path in ("/logo.png", "/favicon.ico"):
+                self.serve_asset(clean_path.lstrip("/"))
             else:
                 self.send_error(404, "Not Found")
 
@@ -167,6 +181,39 @@ def create_handler(engine: CodeGraphEngine, base_dir: str):
                 self.wfile.write(data)
             except Exception as e:
                 self.send_error(500, f"Error reading vendor file: {e}")
+
+        def serve_asset(self, filename: str):
+            filepath = os.path.join(assets_dir, filename)
+            if not os.path.exists(filepath):
+                alt_filepath = os.path.join(base_dir, "assets", filename)
+                if os.path.exists(alt_filepath):
+                    filepath = alt_filepath
+                else:
+                    self.send_error(404, "Asset file not found")
+                    return
+
+            ext = os.path.splitext(filename)[1].lower()
+            mime_types = {
+                '.png': 'image/png',
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.ico': 'image/x-icon',
+                '.svg': 'image/svg+xml',
+                '.webp': 'image/webp'
+            }
+            content_type = mime_types.get(ext, 'application/octet-stream')
+
+            try:
+                with open(filepath, 'rb') as f:
+                    data = f.read()
+                self.send_response(200)
+                self.send_header('Content-Type', content_type)
+                self.send_header('Content-Length', str(len(data)))
+                self.send_header('Cache-Control', 'public, max-age=86400')
+                self.end_headers()
+                self.wfile.write(data)
+            except Exception as e:
+                self.send_error(500, f"Error reading asset file: {e}")
 
         def serve_graph(self):
             try:
