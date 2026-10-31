@@ -11,6 +11,17 @@
 
 ---
 
+## Project identity
+
+- Repository: <https://github.com/kissuHQ/CodeGraph_Studio>
+- Description: A standalone, portable architectural graph and execution flowchart visualizer for any codebase.
+- Maintainer: KissuHQ (PR)
+- License: Apache License 2.0
+
+CodeGraph Studio is designed to help developers understand a codebase through live dependency graphs, file relationships, route discovery, and architecture views without requiring a cloud service.
+
+---
+
 ## Overview
 
 CodeGraph Studio is a lightweight, offline-friendly tool for exploring a codebase as a live architecture graph. It helps you understand how files, classes, routes, templates, imports, and functions connect across a project.
@@ -62,7 +73,7 @@ Double-click `run.bat` or drag a project folder onto it.
 
 ## Missing desktop CLI behavior
 
-If `codegraph` is not installed on your system, CodeGraph Studio will now ask for permission before downloading a portable launcher automatically.
+If `codegraph` is not installed on your system, CodeGraph Studio will ask for permission before downloading a portable launcher automatically.
 
 This keeps the app usable even when the desktop dependency is missing, while giving the user control before any download begins.
 
